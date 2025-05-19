@@ -33,6 +33,7 @@ router.register(r'brands', views.BrandViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     path('api/auth/', include('accounts.urls')),
+    path('api/cart/', include('cart.urls')),
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'drf_spectacular_sidecar',
     'rest_framework',
     'accounts',
-    'products.apps.ProductsConfig'
+    'products',
+    'cart',
 ]
 
 REST_FRAMEWORK = {
