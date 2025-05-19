@@ -8,7 +8,7 @@ from .permissions import IsAdminOrReadOnly
 class WatchViewSet(viewsets.ModelViewSet):
     queryset = Watch.objects.select_related('brand').all()
     serializer_class = WatchSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['brand__name', 'watch_type', 'in_stock']
     search_fields = ['name', 'description']
