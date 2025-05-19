@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:17-alpine
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "54321:5432"
+
+
+  backend:
+    build: ./watchshop
+    env_file:
+      - .env
+#    command: >
+#      sh -c "python manage.py migrate &&
+#             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./watchshop:/app
+      - ./media:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+
+
+
+volumes:
+  postgres_data:
