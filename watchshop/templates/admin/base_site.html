@@ -1,0 +1,10 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'products/css/admin_custom.css' %}">{# (Опционально) Переопределение заголовка админки #}
+{% block title %}{{ title }} | Администрирование магазина{% endblock %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Администрирование магазина</a></h1>
+{% endblock %}

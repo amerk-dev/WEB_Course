@@ -1,0 +1,807 @@
+/* ==========================================================================
+   Переменные (скопированы из вашего примера)
+   ========================================================================== */
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --error-color: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --text-color: #333;
+  --text-light: #666;
+  --bg-color: #fff;
+  --border-color: #e0e0e0;
+  --disabled-color: #9ca3af;
+
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Размеры шрифтов */
+  --text-xs: 0.75rem;   /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-base: 1rem;    /* 16px */
+  --text-lg: 1.125rem;  /* 18px */
+  --text-xl: 1.25rem;   /* 20px */
+
+  /* Высота строки */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* Карточки и тени */
+  --card-bg: #ffffff;
+  --card-image-bg: #f8f8f8;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* Веса шрифтов */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Отступы */
+  --spacing-xs: 0.5rem;  /* 8px */
+  --spacing-sm: 0.75rem; /* 12px */
+  --spacing-md: 1rem;    /* 16px */
+
+  /* Радиусы */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Анимации */
+  --transition-default: 0.2s ease;
+  --transition-fast: 0.1s ease;
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+    --error-color: #ef4444;
+    --error-bg: rgba(239, 68, 68, 0.2);
+    --text-color: #f5f5f5;
+    --text-light: #aaa;
+    --bg-color: #1a1a1a;
+    --border-color: #444;
+    --disabled-color: #6b7280;
+    --card-bg: #2a2a2a; /* Чуть светлее фона для карточек в темной теме */
+    --card-image-bg: #2d2d2d;
+    --text-primary: #f5f5f5;
+    --text-secondary: #aaaaaa;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* ==========================================================================
+   Базовые стили админки
+   ========================================================================== */
+
+body {
+  font-family: var(--font-main);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-bold);
+  color: var(--text-color);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+h1 { font-size: var(--text-xl); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+
+/* ==========================================================================
+   Шапка (Header)
+   ========================================================================== */
+/* ... (ваши переменные и другие стили остаются здесь) ... */
+
+/* ==========================================================================
+   Шапка (Header) - Блок пользователя (#user-tools)
+   ========================================================================== */
+#user-tools {
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  display: flex; /* Главное - располагаем элементы в строку */
+  align-items: center; /* Вертикальное выравнивание по центру */
+  gap: var(--spacing-sm); /* Пространство между элементами (ссылками, кнопкой темы) */
+  color: white; /* Цвет текста "Welcome, admin" */
+}
+
+/* Ссылка "Welcome, admin" (Django оборачивает это в <p> или просто текст) */
+#user-tools strong {
+  font-weight: var(--font-bold); /* Делаем имя пользователя жирнее */
+}
+
+/* Общие стили для ссылок и кнопки "Log out" внутри #user-tools */
+#user-tools a,
+#user-tools form#logout-form button[type="submit"] {
+  color: white !important; /* Важно для переопределения */
+  text-decoration: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+  display: inline-flex; /* Для выравнивания иконок, если будут */
+  align-items: center;
+  line-height: normal; /* Сброс для кнопок */
+  background: none; /* Убираем фон для кнопки logout, чтобы она выглядела как ссылка */
+  border: none; /* Убираем рамку для кнопки logout */
+  cursor: pointer;
+  font-family: var(--font-main); /* Наследуем основной шрифт */
+  font-size: var(--text-sm); /* Наследуем размер шрифта */
+}
+
+#user-tools a:hover,
+#user-tools form#logout-form button[type="submit"]:hover {
+  background-color: rgba(255, 255, 255, 0.15); /* Подсветка при наведении */
+  text-decoration: none;
+}
+
+/* Убираем лишние разделители, если они добавляются Django и не нужны */
+#user-tools span.user-tools-separator { /* Если Django использует такой класс для "/" */
+    display: none;
+}
+/* Или если это просто текст, то придется его скрывать через JS или переопределять шаблон,
+   так как CSS не может выборочно скрыть текстовые узлы без обертки.
+   В вашем HTML разделители "/", похоже, являются частью текста внутри <a> или между элементами.
+   Если вы хотите убрать "/", лучше сделать это в шаблоне или использовать `gap` как сейчас.
+*/
+
+
+/* Стили для кнопки переключения темы */
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs); /* Немного отступа для кликабельности */
+  margin: 0;
+  color: white; /* Цвет иконки по умолчанию */
+  cursor: pointer;
+  display: inline-flex; /* Чтобы svg был в строке */
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.15); /* Подсветка при наведении */
+}
+
+.theme-toggle svg {
+  width: var(--text-xl); /* Размер иконки */
+  height: var(--text-xl);
+  fill: currentColor; /* Иконка будет наследовать цвет кнопки */
+}
+
+/* Скрытие/показ иконок в зависимости от активной темы (управляется JS) */
+/* По умолчанию показываем "auto", если JS не отработал или такая тема */
+.theme-toggle .theme-icon-when-dark,
+.theme-toggle .theme-icon-when-light {
+  display: none;
+}
+.theme-toggle .theme-icon-when-auto {
+  display: inline-block;
+}
+
+/* Когда активна темная тема (класс добавляется JS на кнопку или body) */
+body.theme-dark .theme-toggle .theme-icon-when-auto,
+body.theme-dark .theme-toggle .theme-icon-when-light,
+.theme-toggle.theme-active-dark .theme-icon-when-auto, /* Альтернатива, если класс на самой кнопке */
+.theme-toggle.theme-active-dark .theme-icon-when-light {
+  display: none;
+}
+body.theme-dark .theme-toggle .theme-icon-when-dark,
+.theme-toggle.theme-active-dark .theme-icon-when-dark {
+  display: inline-block;
+}
+
+/* Когда активна светлая тема */
+body.theme-light .theme-toggle .theme-icon-when-auto,
+body.theme-light .theme-toggle .theme-icon-when-dark,
+.theme-toggle.theme-active-light .theme-icon-when-auto,
+.theme-toggle.theme-active-light .theme-icon-when-dark {
+  display: none;
+}
+body.theme-light .theme-toggle .theme-icon-when-light,
+.theme-toggle.theme-active-light .theme-icon-when-light {
+  display: inline-block;
+}
+
+/* Стили для скрытого текста (если еще не определены глобально) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Убираем разделители "/" если они есть как текст между ссылками */
+/* Этот подход сработает только если между элементами нет пробелов и они идут подряд */
+#user-tools > a + a::before,
+#user-tools > a + form#logout-form::before,
+#user-tools > form#logout-form + a::before {
+  /* content: "|"; /* Пример, если бы вы хотели другой разделитель */
+  /* color: rgba(255, 255, 255, 0.5); */
+  /* margin: 0 var(--spacing-xs); */
+  /* display: none; /* Если хотите убрать разделители */
+}
+/* Поскольку у вас уже есть `gap` в `#user-tools`, эти разделители, скорее всего, не нужны.
+   Если Django добавляет их в HTML шаблона, то лучше их удалить там.
+   Если они просто текстовые узлы, CSS их не уберет.
+   В вашем примере `/` является частью текста ссылок.
+   Чтобы убрать `/` из `View site /` и `Change password /`, вам нужно
+   переопределить шаблон, где генерируется этот HTML (скорее всего, `admin/base_site.html`
+   или фрагмент, который он включает).
+*/
+
+/* ==========================================================================
+   Основной контент и контейнеры
+   ========================================================================== */
+#container {
+  padding: var(--spacing-md);
+}
+
+.main, #main { /* Django использует оба */
+  background-color: var(--bg-color); /* Уже установлено для body, но для явности */
+}
+
+/* ==========================================================================
+   Модули на главной странице и списки
+   ========================================================================== */
+.module {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden; /* Чтобы caption красиво вписался */
+}
+
+.module caption, .module h2 { /* h2 для заголовков типа "Недавние действия" */
+  background-color: var(--border-color); /* Или немного светлее фона */
+  color: var(--text-color);
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  margin: 0;
+}
+@media (prefers-color-scheme: dark) {
+    .module caption, .module h2 {
+        background-color: #333; /* Темнее для темной темы */
+    }
+}
+
+
+.module table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.module th, .module td {
+  padding: var(--spacing-sm);
+  text-align: left;
+  font-size: var(--text-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+.module th {
+  font-family: var(--font-main);
+  font-weight: var(--font-semibold);
+  color: var(--text-light);
+}
+.module tr:last-child td {
+  border-bottom: none;
+}
+.module td a {
+  font-weight: var(--font-medium);
+}
+
+/* ==========================================================================
+   Формы и поля ввода
+   ========================================================================== */
+form {
+  /* Можно добавить отступы, если нужно */
+}
+
+.form-row {
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-wrap: wrap; /* Для адаптивности */
+  align-items: flex-start; /* Для многострочных help_text */
+}
+.form-row:last-child {
+  border-bottom: none;
+}
+
+.form-row label, .aligned label {
+  font-family: var(--font-main);
+  font-weight: var(--font-medium);
+  color: var(--text-color);
+  font-size: var(--text-sm);
+  width: 150px; /* Примерная ширина, можно настроить */
+  margin-right: var(--spacing-md);
+  padding-top: calc(var(--spacing-xs) + 2px); /* Выровнять с полем ввода */
+}
+
+.form-row > div > input[type="text"],
+.form-row > div > input[type="email"],
+.form-row > div > input[type="password"],
+.form-row > div > input[type="url"],
+.form-row > div > input[type="number"],
+.form-row > div > textarea,
+.form-row > div > select,
+.vTextField, .vLargeTextField, .vTimeField { /* Классы Django для полей */
+  font-family: var(--font-main);
+  font-size: var(--text-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  box-sizing: border-box;
+  width: 100%; /* Занимать доступное пространство в flex-контейнере */
+  max-width: 400px; /* Ограничение максимальной ширины */
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-row > div > input:focus,
+.form-row > div > textarea:focus,
+.form-row > div > select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2); /* Примерный цвет для фокуса, соответствует --primary-color */
+}
+
+.form-row .help, .form-row .helptext, .form-row .errorlist { /* Текст помощи и ошибки */
+  font-size: var(--text-xs);
+  color: var(--text-light);
+  margin-top: var(--spacing-xs);
+  padding-left: calc(150px + var(--spacing-md)); /* Отступ соответствует label */
+  width: 100%; /* Чтобы занимало всю ширину строки */
+}
+.form-row .errorlist {
+  color: var(--error-color);
+  list-style: none;
+  padding-left: calc(150px + var(--spacing-md));
+  margin-bottom: 0;
+}
+.form-row .errorlist li {
+  padding: var(--spacing-xs) 0;
+}
+.form-row input.error, .form-row textarea.error { /* Поля с ошибками */
+    border-color: var(--error-color) !important;
+}
+
+
+/* ==========================================================================
+   Кнопки
+   ========================================================================== */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+  background-color: var(--primary-color);
+  color: white !important; /* Django может добавлять свои стили */
+  font-family: var(--font-main);
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color var(--transition-default);
+  box-shadow: var(--shadow-sm);
+}
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+  background-color: var(--primary-hover);
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+}
+
+.button.default, input[type=submit].default { /* "Главная" кнопка */
+  /* Можно добавить более яркий стиль, если нужно */
+}
+
+.button.cancel-link, a.cancel-link { /* Кнопка "Отмена" */
+  background-color: var(--text-light);
+  color: var(--text-color) !important;
+}
+.button.cancel-link:hover, a.cancel-link:hover {
+  background-color: var(--disabled-color);
+}
+
+.deletelink-box .button, a.deletelink { /* Кнопка "Удалить" */
+    background-color: var(--error-color);
+}
+.deletelink-box .button:hover, a.deletelink:hover {
+    background-color: #c0392b; /* Темнее красного */
+}
+
+.submit-row {
+  background-color: var(--card-bg); /* Или var(--bg-color) если не в "карточке" */
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+  text-align: right; /* Или left, по вашему усмотрению */
+  margin-top: var(--spacing-md);
+}
+@media (prefers-color-scheme: dark) {
+    .submit-row {
+        border-top: 1px solid #333;
+    }
+}
+
+/* ==========================================================================
+   Сообщения (Messages)
+   ========================================================================== */
+.messagelist {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-md) 0;
+}
+.messagelist li {
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+.messagelist li.info {
+  background-color: #e0f2fe; /* Примерный цвет для info */
+  color: #0c5460;
+  border-left: 4px solid #0ea5e9;
+}
+.messagelist li.success {
+  background-color: #d1fae5; /* Примерный цвет для success */
+  color: #065f46;
+  border-left: 4px solid #10b981;
+}
+.messagelist li.warning {
+  background-color: #fef3c7; /* Примерный цвет для warning */
+  color: #92400e;
+  border-left: 4px solid #f59e0b;
+}
+.messagelist li.error {
+  background-color: var(--error-bg);
+  color: var(--error-color);
+  border-left: 4px solid var(--error-color);
+}
+
+/* ==========================================================================
+   Пагинация
+   ========================================================================== */
+.paginator {
+  font-size: var(--text-sm);
+  color: var(--text-light);
+  padding: var(--spacing-sm) 0;
+  text-align: right; /* Или center */
+}
+.paginator a, .paginator .current {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-left: var(--spacing-xs);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+.paginator a:hover {
+  background-color: var(--border-color);
+  color: var(--text-color);
+  text-decoration: none;
+}
+.paginator .current {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  font-weight: var(--font-bold);
+}
+
+/* ==========================================================================
+   Страница логина (базовые стили, для полной кастомизации нужен свой шаблон)
+   ========================================================================== */
+.login #container {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  width: 400px;
+  margin: 50px auto;
+  box-shadow: var(--shadow-md);
+}
+.login #header {
+  background: var(--primary-color); /* Уже определено, но для явности */
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+}
+.login #content {
+  padding: var(--spacing-md) var(--spacing-md); /* Больше отступов для логин формы */
+}
+.login .form-row {
+  padding: var(--spacing-sm) 0;
+  flex-direction: column; /* Метки над полями на странице логина */
+}
+.login .form-row label {
+  width: auto;
+  margin-bottom: var(--spacing-xs);
+  padding-top: 0;
+}
+.login .form-row input[type="text"],
+.login .form-row input[type="password"] {
+  width: 100%;
+  max-width: none; /* Убираем ограничение для логин формы */
+}
+.login .submit-row {
+  border-top: none;
+  padding: var(--spacing-md) 0 0 0;
+  text-align: center;
+}
+.login .submit-row input[type="submit"] {
+    width: 100%;
+}
+
+/* ==========================================================================
+   Скроллбар и ваш лоадер
+   ========================================================================== */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.loader {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(var(--primary-color), 0.3); /* Используем RGB компоненты для прозрачности */
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+/* Чтобы использовать RGB компоненты, нужно их определить, если они нужны часто,
+   иначе можно просто задать полупрозрачный цвет:
+   border: 3px solid rgba(37, 99, 235, 0.3);
+   border-top-color: #2563eb;
+*/
+
+
+#header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0 var(--spacing-md); /* Убираем вертикальный padding, если логотип/текст задают высоту */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px; /* Задаем минимальную высоту шапки */
+  box-shadow: var(--shadow-sm);
+  position: sticky; /* Приклеиваем шапку при скролле */
+  top: 0;
+  z-index: 1030; /* Выше большинства элементов */
+}
+
+#branding {
+  display: flex;
+  align-items: center;
+}
+
+#branding h1,
+#branding h1 a {
+  font-family: var(--font-heading);
+  font-weight: var(--font-bold);
+  font-size: var(--text-xl); /* Немного увеличим */
+  color: white !important;
+  text-decoration: none;
+  margin: 0;
+  padding: var(--spacing-sm) 0; /* Добавим вертикальный отступ тексту */
+}
+/* Если вы хотите добавить логотип:
+   1. Переопределите admin/base_site.html и вставьте <img> в #branding
+   2. Стилизуйте его:
+#branding img.admin-logo {
+  height: 40px; / Примерная высота /
+  margin-right: var(--spacing-sm);
+}
+*/
+
+#user-tools {
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+}
+
+#user-tools a,
+#user-tools form input[type="submit"] /* Для кнопки "Выйти" */ {
+  color: white !important;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-left: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+  text-decoration: none;
+  display: inline-block;
+  line-height: normal; /* Сброс для кнопок */
+}
+
+#user-tools a:hover,
+#user-tools form input[type="submit"]:hover {
+  background-color: rgba(255, 255, 255, 0.15); /* Чуть ярче при наведении */
+  text-decoration: none;
+}
+/* Стили для кнопки "Выйти", если она оформлена как форма */
+#user-tools form {
+    margin: 0;
+    padding: 0;
+}
+#user-tools form input[type="submit"] {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* Хлебные крошки (Breadcrumbs) - находятся под шапкой */
+.breadcrumbs {
+  background-color: var(--bg-color); /* Или чуть темнее/светлее фона */
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  font-size: var(--text-sm);
+  box-shadow: inset 0 -1px 0 var(--border-color); /* Тонкая линия снизу */
+}
+.breadcrumbs a {
+  color: var(--primary-color);
+  font-weight: var(--font-medium);
+}
+.breadcrumbs a:hover {
+  color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   Меню (Навигация - список приложений и моделей на главной странице)
+   ========================================================================== */
+
+/* Заголовок "Администрирование сайта" на главной странице */
+#content h1 {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl); /* Крупнее */
+  color: var(--text-color);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--primary-color); /* Акцентная линия */
+  display: inline-block; /* Чтобы линия была по ширине текста */
+}
+
+/* Контейнер для приложений на главной странице */
+#content-main .app-list {
+  /* Django не имеет класса app-list по умолчанию для всего блока,
+     но каждый модуль приложения имеет класс .app-<app_label> */
+}
+
+/* Каждый блок приложения (модуль) */
+.module.app-app_label { /* Замените <app_label> на реальные имена (products, accounts и т.д.) или используйте общий .module */
+  /* Общие стили для .module уже есть, можно их дополнить */
+}
+
+.module caption, /* Заголовок приложения */
+.module h2 { /* Используется для "Недавние действия" и может использоваться для заголовков приложений */
+  background-color: var(--primary-color); /* Сделаем заголовок приложения ярким */
+  color: white;
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: none; /* Убираем стандартную границу, т.к. фон уже есть */
+  border-top-left-radius: var(--radius-md); /* Скругляем верхние углы, если сам модуль скруглен */
+  border-top-right-radius: var(--radius-md);
+}
+@media (prefers-color-scheme: dark) {
+    .module caption, .module h2 {
+        background-color: var(--primary-hover); /* Чуть другой оттенок для темной темы */
+    }
+}
+
+/* Таблица с моделями внутри блока приложения */
+.module table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.module th, /* Заголовок "Модель" */
+.module td { /* Ячейка с ссылкой на модель или кнопками "Добавить"/"Изменить" */
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  font-size: var(--text-base); /* Чуть крупнее для лучшей читаемости */
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle; /* Выравнивание по центру для кнопок */
+}
+.module th {
+  font-family: var(--font-main);
+  font-weight: var(--font-semibold);
+  color: var(--text-light);
+  background-color: var(--card-image-bg); /* Легкий фон для заголовков таблицы */
+}
+
+.module tr:hover td {
+  background-color: var(--card-image-bg); /* Подсветка строки при наведении */
+}
+
+.module td a { /* Ссылка на список объектов модели */
+  font-weight: var(--font-medium);
+  color: var(--primary-color);
+  display: inline-block; /* Для лучшего кликабельного пространства */
+}
+.module td a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Кнопки "Добавить" и "Изменить" рядом с названием модели */
+.module td a.addlink,
+.module td a.changelink {
+  font-size: var(--text-sm);
+  font-weight: var(--font-regular);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  margin-left: var(--spacing-md);
+  text-decoration: none;
+  transition: background-color var(--transition-default), color var(--transition-default);
+  vertical-align: middle;
+}
+
+.module td a.addlink {
+  background-color: var(--primary-color);
+  color: white !important; /* Переопределяем цвет ссылки */
+}
+.module td a.addlink:hover {
+  background-color: var(--primary-hover);
+}
+
+.module td a.changelink {
+  background-color: var(--text-light); /* Или другой нейтральный цвет */
+  color: var(--text-color) !important;
+}
+.module td a.changelink:hover {
+  background-color: var(--disabled-color);
+}
+
+@media (prefers-color-scheme: dark) {
+    .module th {
+        background-color: #2d2d2d;
+    }
+    .module tr:hover td {
+      background-color: #252525; /* Темнее для подсветки в темной теме */
+    }
+    .module td a.changelink {
+        background-color: var(--disabled-color);
+        color: var(--text-primary) !important;
+    }
+    .module td a.changelink:hover {
+        background-color: #555;
+    }
+}
